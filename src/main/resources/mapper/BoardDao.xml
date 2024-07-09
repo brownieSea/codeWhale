@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.codewhale.dao.BoardDao">
+
+	<!-- 게시판 리스트 -->
+	<select id="boardListDao" resultType="com.codewhale.dto.BoardDto">
+		SELECT * FROM pboard ORDER BY bnum DESC
+	</select>
+	
+	<!-- 게시판 글쓰기 -->
+	<insert id="writeDao">
+		INSERT INTO pboard(bnum, bid, bname, btitle, bcontent) VALUES(pboard_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4})
+	</insert>
+	
+	<!-- 게시판 글보기 -->
+	<select id="viewContent" resultType="com.codewhale.dto.BoardDto">
+		select * from pboard where bnum=#{param1}
+	</select>
+	
+	<!-- 게시판 글수정 -->
+	<update id="modifyContentDao">
+		update pboard set btitle=#{param2}, bcontent=#{param3} where bnum=#{param1}
+	</update>
+
+	<!-- 게시판 글 삭제 -->
+	<delete id="contentDeleteDao">
+		DELETE FROM pboard WHERE bnum=#{param1}
+	</delete>
+		
+</mapper> 

@@ -14,10 +14,10 @@
 	<%@ include file="include/header.jsp" %>
 	<div id="location"></div>
 	
-	<h3>Board - View</h3>
+	<h3>Board - View - ${sid }</h3>
 	
 		<div id="write_box">
-			<div style="width:100%; text-align:right;"><strong>${mDto.mid }</strong> | ${bDto.bhit } | <c:out value="${fn:substring(bDto.bdate, 0, 10) }"></c:out></div>
+			<div style="width:100%; text-align:right;"><strong>${mDtoView.mid }</strong> | ${bDto.bhit } | <c:out value="${fn:substring(bDto.bdate, 0, 10) }"></c:out></div>
 			<div style="width:97%; background-color:#e1e1e1; padding:10px; margin:10px 0;">${bDto.btitle }</div>
 			<div style="width:100%; padding:10px 0 20px 0; border-bottom:1px solid #ccc;">${bDto.bcontent }</div>
 			

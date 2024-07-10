@@ -102,11 +102,17 @@ public class BoardController {
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 		
 		MemberDto mDtoView = memberDao.getMemberInfoDao(bDto.getBid());
-		MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
 		
 		model.addAttribute("bDto", bDto);
 		model.addAttribute("mDtoView", mDtoView);  // 글작성자 memberDto
-		model.addAttribute("mDto", mDto);  // 로그인 회원 memberDto
+		
+		if(sid == null) { // 참이면 로그인하지 않은 회원이 글쓰기 버튼을 클릭한 경우
+			
+		} else {
+			boardDao.countHitDao(request.getParameter("bnum"));
+			MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+			model.addAttribute("mDto", mDto);  // 로그인 회원 memberDto
+		}
 		
 		return "viewContent";
 	}
@@ -122,15 +128,8 @@ public class BoardController {
 		
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 
-		if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {   //참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
-			
-			MemberDto mDto = memberDao.getMemberInfoDao(bDto.getBid());
-			model.addAttribute("bDto", bDto);
-			model.addAttribute("mDto", mDto);
-			
-		} 
-
-		if (sid == null || !sid.equals(bDto.getBid())) {  // 비로그인 상태이거나 글작성자와 아이디가 일치하지 않으면
+		if (sid == null || (!sid.equals(bDto.getBid()) && !sid.equals("admin"))) {  
+		//if (sid == null || !sid.equals(bDto.getBid()) || !sid.equals("admin")) {  // 비로그인 상태이거나 글작성자와 아이디가 일치하지 않으면
 
 			// 컨트롤러에서 경고창 띄우기
 			try {
@@ -145,8 +144,15 @@ public class BoardController {
 				e.printStackTrace();
 			}
 			
-		}
-		
+		} else {
+
+		//if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
+			
+			MemberDto mDto = memberDao.getMemberInfoDao(bDto.getBid());
+			model.addAttribute("bDto", bDto);
+			model.addAttribute("mDto", mDto);
+			
+		} 
 		return "contentModify";
 	}
 	
@@ -169,8 +175,8 @@ public class BoardController {
 		String sid = (String) session.getAttribute("sessionId"); // 현재 로그인한 회원의 아이디
 		
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
-		
-		if (sid == null || !sid.equals(bDto.getBid())) { // 비로그인 상태이거나 글작성자와 아이디가 일치하지 않으면
+
+		if (sid == null || (!sid.equals(bDto.getBid()) && !sid.equals("admin"))) {
 			// 컨트롤러에서 경고창 띄우기
 			try {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
@@ -183,14 +189,10 @@ public class BoardController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-		}
-		
-		if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
-			
+		} else {
 			boardDao.contentDeleteDao(request.getParameter("bnum"));
 		}
-		
+
 		return "redirect:list";
 	}
 	

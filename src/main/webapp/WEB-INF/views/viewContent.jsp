@@ -14,7 +14,7 @@
 	<%@ include file="include/header.jsp" %>
 	<div id="location"></div>
 	
-	<h3>Board - View - ${sid }</h3>
+	<h3>Board - View</h3>
 	
 		<div id="write_box">
 			<div style="width:100%; text-align:right;"><strong>${mDtoView.mid }</strong> | ${bDto.bhit } | <c:out value="${fn:substring(bDto.bdate, 0, 10) }"></c:out></div>

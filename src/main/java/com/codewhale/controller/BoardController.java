@@ -109,7 +109,7 @@ public class BoardController {
 		if(sid == null) { // 참이면 로그인하지 않은 회원이 글쓰기 버튼을 클릭한 경우
 			
 		} else {
-			boardDao.countHitDao(request.getParameter("bnum"));
+
 			MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
 			model.addAttribute("mDto", mDto);  // 로그인 회원 memberDto
 		}

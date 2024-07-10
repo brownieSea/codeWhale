@@ -27,11 +27,17 @@ public class BoardController {
 	private SqlSession sqlSession;
 	
 	@GetMapping(value = "/list")
-	public String boardList(Model model) {
+	public String boardList(Model model, HttpSession session) {
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+		
+		String sid = (String) session.getAttribute("sessionId");
 		
 		ArrayList<BoardDto> bDtos = boardDao.boardListDao();
+		MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+		
 		model.addAttribute("bDtos", bDtos);
+		model.addAttribute("mDto", mDto);
 		return "boardList";
 	}
 	
@@ -81,11 +87,13 @@ public class BoardController {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+
+		boardDao.countHitDao(request.getParameter("bnum"));
 		
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 		
 		MemberDto mDto = memberDao.getMemberInfoDao(bDto.getBid());
-		
+	
 		model.addAttribute("bDto", bDto);
 		model.addAttribute("mDto", mDto);
 		

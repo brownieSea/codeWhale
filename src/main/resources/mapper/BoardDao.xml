@@ -31,4 +31,8 @@
 		DELETE FROM pboard WHERE bnum=#{param1}
 	</delete>
 		
+	<!-- hit 증가 -->
+	<update id="countHitDao">
+		update pboard set bhit=bhit+1 where bnum=#{param1}
+	</update>
 </mapper> 

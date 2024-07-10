@@ -24,9 +24,9 @@
 				<li><a href="modify">Modify</a></li>
 				</c:otherwise>
 			</c:choose>
-			<li><a href="">Profile</a></li>
+			<li><a href="index">Profile</a></li>
 			<li><a href="list">Board</a></li>
-			<li><a href="">Contact</a></li>
+			<li><a href="index">Contact</a></li>
 		</ul>
 	</div>
 </body>

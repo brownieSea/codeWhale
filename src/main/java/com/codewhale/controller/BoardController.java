@@ -33,11 +33,18 @@ public class BoardController {
 		
 		String sid = (String) session.getAttribute("sessionId");
 		
-		ArrayList<BoardDto> bDtos = boardDao.boardListDao();
-		MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-		
-		model.addAttribute("bDtos", bDtos);
-		model.addAttribute("mDto", mDto);
+		if(sid == null ) {
+			ArrayList<BoardDto> bDtos = boardDao.boardListDao();
+			model.addAttribute("bDtos", bDtos);
+		} else {
+			
+			ArrayList<BoardDto> bDtos = boardDao.boardListDao();
+			MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+			
+			model.addAttribute("bDtos", bDtos);
+			model.addAttribute("mDto", mDto);
+		}
+
 		return "boardList";
 	}
 	
@@ -111,14 +118,8 @@ public class BoardController {
 		
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 		
-		if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
-			
-			MemberDto mDto = memberDao.getMemberInfoDao(bDto.getBid());
-			model.addAttribute("bDto", bDto);
-			model.addAttribute("mDto", mDto);
-			
-		} else { // 글을 쓴 회원과 현재 로그인한 아이디가 다르므로 수정 삭제권한 없음
-			
+		if (sid == null || !sid.equals(bDto.getBid())) {
+
 			// 컨트롤러에서 경고창 띄우기
 			try {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
@@ -132,7 +133,13 @@ public class BoardController {
 				e.printStackTrace();
 			}
 			
-		}
+		} else if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
+			
+			MemberDto mDto = memberDao.getMemberInfoDao(bDto.getBid());
+			model.addAttribute("bDto", bDto);
+			model.addAttribute("mDto", mDto);
+			
+		} 
 		return "contentModify";
 	}
 	
@@ -156,12 +163,7 @@ public class BoardController {
 		
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 		
-		if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
-			
-			boardDao.contentDeleteDao(request.getParameter("bnum"));
-			
-		} else { // 글을 쓴 회원과 현재 로그인한 아이디가 다르므로 수정 삭제권한 없음
-			
+		if (sid == null || !sid.equals(bDto.getBid())) {
 			// 컨트롤러에서 경고창 띄우기
 			try {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
@@ -174,7 +176,10 @@ public class BoardController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+		} else if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
 			
+			boardDao.contentDeleteDao(request.getParameter("bnum"));
 		}		
 		return "redirect:list";
 	}

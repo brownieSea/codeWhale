@@ -17,7 +17,6 @@ import com.codewhale.dao.MemberDao;
 import com.codewhale.dto.BoardDto;
 import com.codewhale.dto.MemberDto;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -107,9 +106,6 @@ public class BoardController {
 	public String modifyContent(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response, @ModelAttribute("sid") String sid) {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
-		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-		
-	
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 
 		if (sid == null || (!sid.equals(bDto.getBid()) && !sid.equals("admin"))) {  
@@ -152,8 +148,6 @@ public class BoardController {
 	public String contentDelete(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response, @ModelAttribute("sid") String sid) {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
-		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-		
 	
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 

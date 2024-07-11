@@ -109,7 +109,7 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		
-		return "login";
+		return "";
 	}
 	
 	@GetMapping(value = "logoutOk")

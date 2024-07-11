@@ -28,14 +28,13 @@ public class MemberController {
 	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
 	
 		if (sid != null) {
-		
+
 			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
 			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
 			model.addAttribute("mDto", memberDto);
 		}
 		
 	}
-	
 	
 	@GetMapping(value = "/")
 	public String home() {
@@ -90,9 +89,10 @@ public class MemberController {
 			model.addAttribute("loginFail", 1);
 		} else {
 			// 로그인 성공 -> 세션에 현재 로그인 성공된 아이디를 저장
-			session.setAttribute("sessionId", request.getParameter("mid"));
 			memberDto = memberDao.getMemberInfoDao(request.getParameter("mid"));
-			
+			session.setAttribute("sessionId", request.getParameter("mid"));
+			session.setAttribute("sessionName", memberDto.getMname());
+
 			model.addAttribute("mDto", memberDto); // 로그인한 회원 이름
 		}		
 		return "loginOk";

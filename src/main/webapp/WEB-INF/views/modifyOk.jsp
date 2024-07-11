@@ -18,7 +18,10 @@
 			<p><span>ID</span><span class="memberInfo">${mDto.mid }</span></p>
 			<p><span>Name</span><span class="memberInfo">${mDto.mname }</span></p>
 			<p><span>Email</span><span class="memberInfo">${mDto.memail }</span></p>
-			<p><input type="button" value="Modify" onclick="javascript:window.location.href='modify'" /> <input type="button" value="Logout" onclick="javascript:window.location.href='logout'"></p>
+			<p>
+				<input type="button" value="Modify" onclick="javascript:window.location.href='modify'" /> 
+				<input type="button" value="Logout" onclick="javascript:window.location.href='logout'">
+			</p>
 		</div>
 	
 	<%@ include file="include/footer.jsp" %>

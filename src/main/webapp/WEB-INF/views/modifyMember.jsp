@@ -22,7 +22,10 @@
 			<p><span>Confirm Password</span><input type="password" name="mpwCheck"" /></p>
 			<p><span>Name</span><input type="text" name="mname" value="${mDto.mname }"/></p>
 			<p><span>Email</span><input type="text" name="memail" value="${mDto.memail }" /></p>
-			<p><input type="button" value="Ok" onclick="joinCheck()" /> <input type="button" value="Cancel" onclick="javascript:history.go(-1)"></p>
+			<p>
+				<input type="button" value="Ok" onclick="joinCheck()" />
+				<input type="button" value="Cancel" onclick="javascript:history.go(-1)">
+			</p>
 		</div>
 	</form> 	
 	<%@ include file="include/footer.jsp" %>

@@ -10,7 +10,7 @@
 <body>
 	<div id="nav_top">
 		<div>
-			<a href="/" id="nav_logo"><img src="/resources/img/whale.png" alt="CODE Whale" width="100px" /><span style="font-weight:100;">CODE </span><span style="margin-left:10px; color:orange;">Whale</span></a>
+			<a href="/" id="nav_logo"><img src="/resources/img/whale.png" alt="CODE Whale" width="100px" /><span style="font-weight:100;">CODE </span><span style="margin-left:5px; color:orange;">Whale</span></a>
 		</div>
 		<ul id="nav_menu">
 			<c:choose>
@@ -19,7 +19,7 @@
 				<li><a href="join">Join</a></li>
 				</c:when>
 				<c:otherwise>
-				<li>${mDto.mname } (<c:out value="${sessionScope.sessionId}"></c:out>)님</li>
+				<li><c:out value="${sessionScope.sessionName}"></c:out> (<c:out value="${sessionScope.sessionId}"></c:out>)님</li>
 				<li><a href="logout">Logout</a></li>
 				<li><a href="modify">Modify</a></li>
 				</c:otherwise>

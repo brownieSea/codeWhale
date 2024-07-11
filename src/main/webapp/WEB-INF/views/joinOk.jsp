@@ -23,7 +23,10 @@
 	<div id="join_box">
 		<p>${mname }(${mid })님 회원가입에 성공하였습니다.</p>
 		<p><br/></p>
-		<p><input type="button" value="LOGIN" onclick="javascript:window.location.href='login'" /> <input type="button" value="BOARD" onclick="javascript:window.location.href='boardList'" /></p>
+		<p>
+			<input type="button" value="LOGIN" onclick="javascript:window.location.href='login'" />
+			<input type="button" value="BOARD" onclick="javascript:window.location.href='boardList'" />
+		</p>
 	</div>
 	
 	<%@ include file="include/footer.jsp" %>

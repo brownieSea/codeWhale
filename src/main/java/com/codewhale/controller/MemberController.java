@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.codewhale.dao.MemberDao;
@@ -23,6 +24,20 @@ public class MemberController {
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@ModelAttribute
+	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
+	
+		if (sid == null) {
+			
+		} else {
+			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+			model.addAttribute("mDto", memberDto);
+		}
+		
+	}
+	
 	
 	@GetMapping(value = "/")
 	public String home() {
@@ -105,15 +120,7 @@ public class MemberController {
 	}
 	
 	@GetMapping(value = "modify")
-	public String modify(HttpSession session, Model model) {
-		
-		String sid = (String) session.getAttribute("sessionId");
-		//  현재 로그인한 회원 아이디
-		
-		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-		MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-		
-		model.addAttribute("mDto", memberDto);
+	public String modify() {
 		
 		return "modifyMember";
 	}

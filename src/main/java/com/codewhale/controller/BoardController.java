@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.codewhale.dao.BoardDao;
@@ -21,39 +22,37 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+
 @Controller
 public class BoardController {
 
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@ModelAttribute
+	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
+	
+		if (sid == null) {
+			
+		} else {
+			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+			model.addAttribute("mDto", memberDto);
+		}
+		
+	}
+	
 	@GetMapping(value = "/list")
 	public String boardList(Model model, HttpSession session) {
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
-		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-		
-		String sid = (String) session.getAttribute("sessionId");
-		
-		if(sid == null ) {
-			ArrayList<BoardDto> bDtos = boardDao.boardListDao();
-			model.addAttribute("bDtos", bDtos);
-		} else {
-			
-			ArrayList<BoardDto> bDtos = boardDao.boardListDao();
-			MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-			
-			model.addAttribute("bDtos", bDtos);
-			model.addAttribute("mDto", mDto);
-		}
+		ArrayList<BoardDto> bDtos = boardDao.boardListDao();
+		model.addAttribute("bDtos", bDtos);
 
 		return "boardList";
 	}
 	
 	@GetMapping(value = "/write")
-	public String write(HttpSession session, HttpServletResponse response, Model model) {
-		
-		String sid = (String) session.getAttribute("sessionId");
-		// 현재 로그인한 회원의 아이디
+	public String write(HttpSession session, HttpServletResponse response, Model model, @ModelAttribute("sid") String sid) {
 		
 		if(sid == null) { // 참이면 로그인하지 않은 회원이 글쓰기 버튼을 클릭한 경우
 
@@ -71,11 +70,7 @@ public class BoardController {
 			}
 			
 		} else { //로그인한 회원이 글쓰기 버튼을 클릭한 경우
-			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-			
-			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-			
-			model.addAttribute("mDto", memberDto);
+
 		}
 		
 		return "write";
@@ -91,11 +86,10 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "viewContent")
-	public String viewContent(HttpServletRequest request, Model model, HttpSession session) {
+	public String viewContent(HttpServletRequest request, Model model, HttpSession session, @ModelAttribute("sid") String sid) {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-		String sid = (String) session.getAttribute("sessionId");
 
 		boardDao.countHitDao(request.getParameter("bnum"));
 		
@@ -106,26 +100,16 @@ public class BoardController {
 		model.addAttribute("bDto", bDto);
 		model.addAttribute("mDtoView", mDtoView);  // 글작성자 memberDto
 		
-		if(sid == null) { // 참이면 로그인하지 않은 회원이 글쓰기 버튼을 클릭한 경우
-			
-		} else {
-
-			MemberDto mDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-			model.addAttribute("mDto", mDto);  // 로그인 회원 memberDto
-		}
-		
 		return "viewContent";
 	}
 	
 	@GetMapping(value = "/contentModify")
-	public String modifyContent(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response) {
+	public String modifyContent(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response, @ModelAttribute("sid") String sid) {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
 		
-		String sid = (String) session.getAttribute("sessionId");
-		// 현재 로그인한 회원의 아이디
-		
+	
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 
 		if (sid == null || (!sid.equals(bDto.getBid()) && !sid.equals("admin"))) {  
@@ -167,13 +151,12 @@ public class BoardController {
 	}
 	
 	@GetMapping(value = "/contentDelete")
-	public String contentDelete(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response) {
+	public String contentDelete(HttpServletRequest request, Model model, HttpSession session, HttpServletResponse response, @ModelAttribute("sid") String sid) {
 		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
 		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
 		
-		String sid = (String) session.getAttribute("sessionId"); // 현재 로그인한 회원의 아이디
-		
+	
 		BoardDto bDto = boardDao.viewContent(request.getParameter("bnum"));
 
 		if (sid == null || (!sid.equals(bDto.getBid()) && !sid.equals("admin"))) {

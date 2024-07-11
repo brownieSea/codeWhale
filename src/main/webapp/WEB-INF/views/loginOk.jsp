@@ -24,7 +24,7 @@
 	
 	<form action="loginOk" method="post" name="loginForm">
 		<div id="join_box">
-			<p>${mDto.mname }님이 로그인하셨습니다.</p>
+			<p><c:out value="${sessionScope.sessionName}"></c:out>님이 로그인하셨습니다.</p>
 			<p><input type="button" value="LOGOUT" onclick="javascript:window.location.href='logout'" /></p>
 		</div>
 	</form> 

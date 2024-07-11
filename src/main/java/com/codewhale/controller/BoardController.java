@@ -27,17 +27,6 @@ public class BoardController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@ModelAttribute
-	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
-	
-		if (sid != null) {
-			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-			model.addAttribute("mDto", memberDto);
-		}
-		
-	}
-	
 	@GetMapping(value = "/list")
 	public String boardList(Model model, HttpSession session) {
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
@@ -65,7 +54,11 @@ public class BoardController {
 				e.printStackTrace();
 			}
 			
-		} 
+		} else {
+			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+			model.addAttribute("mDto", memberDto);
+		}
 		
 		return "write";
 	}

@@ -24,18 +24,6 @@ public class MemberController {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@ModelAttribute
-	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
-	
-		if (sid != null) {
-
-			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
-			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
-			model.addAttribute("mDto", memberDto);
-		}
-		
-	}
-	
 	@GetMapping(value = "/")
 	public String home() {
 		return "index";
@@ -92,8 +80,6 @@ public class MemberController {
 			memberDto = memberDao.getMemberInfoDao(request.getParameter("mid"));
 			session.setAttribute("sessionId", request.getParameter("mid"));
 			session.setAttribute("sessionName", memberDto.getMname());
-
-			model.addAttribute("mDto", memberDto); // 로그인한 회원 이름
 		}		
 		return "loginOk";
 	}
@@ -119,8 +105,10 @@ public class MemberController {
 	}
 	
 	@GetMapping(value = "modify")
-	public String modify() {
-		
+	public String modify(HttpSession session, Model model, @ModelAttribute("sid") String sid) {
+		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
+		MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
+		model.addAttribute("mDto", memberDto);	
 		return "modifyMember";
 	}
 	

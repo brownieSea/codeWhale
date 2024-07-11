@@ -10,7 +10,7 @@
 <body>
 	<div id="nav_top">
 		<div>
-			<a href="/" id="nav_logo"><img src="/resources/img/whale.png" alt="CODE Whale" width="100px" /><span style="font-weight:100;">CODE </span><span style="margin-left:5px; color:orange;">Whale</span></a>
+			<a href="/" id="nav_logo"><img src="/resources/img/whale.png" alt="CODE Whale" width="100px" /><span style="font-weight:100; margin-left:-50px;">CODE </span><span style="margin-left:5px; color:orange;">Whale</span></a>
 		</div>
 		<ul id="nav_menu">
 			<c:choose>

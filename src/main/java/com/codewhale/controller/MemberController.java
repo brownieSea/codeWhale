@@ -26,12 +26,12 @@ public class MemberController {
 	
 	@GetMapping(value = "/")
 	public String home() {
-		return "index";
+		return "redirect:list";
 	}
 
 	@GetMapping(value = "/index")
 	public String index() {
-		return "index";
+		return "redirect:list";
 	}
 	
 	@GetMapping(value = "/join")
@@ -92,8 +92,17 @@ public class MemberController {
 			response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
 			response.setCharacterEncoding("utf-8");
 			PrintWriter printWriter = response.getWriter();
-			printWriter.println("<script>alert('로그아웃 하시겠습니까'); location.href='login';</script>");
-
+//			printWriter.println("<script>alert('로그아웃 하시겠습니까'); location.href='login';</script>");
+		    
+			// 확인을 누르면 로그아웃, 취소를 누르면 목록 페이지로 이동
+		    printWriter.println("<script>");
+		    printWriter.println("if (confirm('로그아웃 하시겠습니까?')) {");
+		    printWriter.println("  location.href='login';");
+		    printWriter.println("} else {");
+		    printWriter.println("  location.href='list';");
+		    printWriter.println("}");
+		    printWriter.println("</script>");
+		    
 			printWriter.flush();
 			session.invalidate(); // 로그아웃 -> 세션 삭제
 
@@ -101,6 +110,7 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return "login";
 	}
 	
@@ -113,13 +123,13 @@ public class MemberController {
 	}
 	
 	@PostMapping(value = "/modifyOk")
-	public String modifyOk(HttpServletRequest request, Model model) {
+	public String modifyOk(HttpServletRequest request, Model model, HttpSession session) {
 		
 		MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
 		memberDao.modifyInfoDao(request.getParameter("mid"), request.getParameter("mpw"), request.getParameter("mname"), request.getParameter("memail"));
 		
 		MemberDto memberDto = memberDao.getMemberInfoDao(request.getParameter("mid")); // 현재 로그인한 회원의 모든 정보
-		
+		session.setAttribute("sessionName", memberDto.getMname());
 		model.addAttribute("mDto", memberDto);
 
 		return "modifyOk";

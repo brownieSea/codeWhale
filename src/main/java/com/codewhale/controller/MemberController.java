@@ -97,20 +97,24 @@ public class MemberController {
 			// 확인을 누르면 로그아웃, 취소를 누르면 목록 페이지로 이동
 		    printWriter.println("<script>");
 		    printWriter.println("if (confirm('로그아웃 하시겠습니까?')) {");
-		    printWriter.println("  location.href='login';");
+		    printWriter.println("  location.href='logoutOk';");
 		    printWriter.println("} else {");
 		    printWriter.println("  location.href='list';");
 		    printWriter.println("}");
 		    printWriter.println("</script>");
-		    
 			printWriter.flush();
-			session.invalidate(); // 로그아웃 -> 세션 삭제
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		return "login";
+	}
+	
+	@GetMapping(value = "logoutOk")
+	public String logoutOk(HttpSession session) {
+		session.invalidate(); // 로그아웃 -> 세션 삭제
 		return "login";
 	}
 	

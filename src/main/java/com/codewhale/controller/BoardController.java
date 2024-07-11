@@ -59,7 +59,7 @@ public class BoardController {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
 				response.setCharacterEncoding("utf-8");
 				PrintWriter printWriter = response.getWriter();
-				printWriter.println("<script>alert('"+"글쓰기는 회원만 가능합니다"+"');location.href='"+"login"+"';</script>");
+				printWriter.println("<script>alert('글쓰기는 회원만 가능합니다');location.href='login';</script>");
 				printWriter.flush();
 
 			} catch (IOException e) {
@@ -113,7 +113,7 @@ public class BoardController {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
 				response.setCharacterEncoding("utf-8");
 				PrintWriter printWriter = response.getWriter();
-				printWriter.println("<script>alert('"+"글 수정 권한이 없습니다."+"');history.go(-1);</script>");
+				printWriter.println("<script>alert('글 수정 권한이 없습니다.');history.go(-1);</script>");
 				printWriter.flush();
 
 			} catch (IOException e) {
@@ -151,7 +151,7 @@ public class BoardController {
 				response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
 				response.setCharacterEncoding("utf-8");
 				PrintWriter printWriter = response.getWriter();
-				printWriter.println("<script>alert('"+"글 삭제 권한이 없습니다."+"');history.go(-1);</script>");
+				printWriter.println("<script>alert('글 삭제 권한이 없습니다.');history.go(-1);</script>");
 				printWriter.flush();
 
 			} catch (IOException e) {

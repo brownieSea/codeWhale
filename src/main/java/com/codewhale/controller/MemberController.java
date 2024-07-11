@@ -106,7 +106,8 @@ public class MemberController {
 			response.setContentType("text/html;charset=utf-8"); // 경고창 텍스트를 utf-8로 변환
 			response.setCharacterEncoding("utf-8");
 			PrintWriter printWriter = response.getWriter();
-			printWriter.println("<script>alert('"+"로그아웃 하시겠습니까"+"');location.href='"+"login"+"';</script>");
+			printWriter.println("<script>alert('로그아웃 하시겠습니까'); location.href='login';</script>");
+
 			printWriter.flush();
 			session.invalidate(); // 로그아웃 -> 세션 삭제
 
@@ -135,10 +136,5 @@ public class MemberController {
 
 		return "modifyOk";
 	}
-	
-	
-	
-	
-	
 	
 }

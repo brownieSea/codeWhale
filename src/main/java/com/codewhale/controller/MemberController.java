@@ -27,9 +27,8 @@ public class MemberController {
 	@ModelAttribute
 	public void loginInfoView(@ModelAttribute("sid") String sid, Model model) {
 	
-		if (sid == null) {
-			
-		} else {
+		if (sid != null) {
+		
 			MemberDao memberDao = sqlSession.getMapper(MemberDao.class);
 			MemberDto memberDto = memberDao.getMemberInfoDao(sid); // 현재 로그인한 회원의 모든 정보
 			model.addAttribute("mDto", memberDto);

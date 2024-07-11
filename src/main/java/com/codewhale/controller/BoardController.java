@@ -67,9 +67,7 @@ public class BoardController {
 				e.printStackTrace();
 			}
 			
-		} else { //로그인한 회원이 글쓰기 버튼을 클릭한 경우
-
-		}
+		} 
 		
 		return "write";
 	}
@@ -124,12 +122,9 @@ public class BoardController {
 			}
 			
 		} else {
-
-		//if (sid.equals(bDto.getBid()) || (sid.equals("admin"))) {//참이면 글을 쓴 회원과 현재 로그인 중인 아이디가 일치->수정,삭제 가능
-			
 			model.addAttribute("bDto", bDto);
-			
-		} 
+		}
+		
 		return "contentModify";
 	}
 	

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.codewhale.dao.BoardDao;
 import com.codewhale.dao.MemberDao;
 import com.codewhale.dto.BoardDto;
+import com.codewhale.dto.Criteria;
 import com.codewhale.dto.MemberDto;
+import com.codewhale.dto.PageDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,16 +30,29 @@ public class BoardController {
 	private SqlSession sqlSession;
 	
 	@GetMapping(value = "/list")
-	public String boardList(Model model, HttpSession session) {
+	public String boardList(Model model, Criteria criteria, HttpServletRequest request) {
+		
 		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
-		ArrayList<BoardDto> bDtos = boardDao.boardListDao();
+		
+		String currentPageNum = request.getParameter("pageNum");  // 사용자가 클릭한 게시판 페이지 번호
+		
+		if(currentPageNum != null) { // 게시판 메뉴를 클릭해서 게시판 목록이 보일 경우에는 pageNum값이 null 이므로 에러 발생하기에 체크 필요
+			criteria.setPageNum(Integer.parseInt(currentPageNum));  // 사용자가 클릭한 페이지 번호를 Criterial 객체 내 변수인 pageNum 값으로 세팅
+		}
+		
+		int total = boardDao.boardTotalCountDao(); // 게시판 내 모든 글의 총 개수
+		
+		PageDto pageDto = new PageDto(total, criteria);
+		
+		ArrayList<BoardDto> bDtos = boardDao.boardListDao(criteria.getAmount(), criteria.getPageNum());
 		model.addAttribute("bDtos", bDtos);
+		model.addAttribute("pageDto", pageDto);  // startPage, endPage, next, prev, total, criteria 모두 전달 
 
 		return "boardList";
 	}
 	
 	@GetMapping(value = "/write")
-	public String write(HttpSession session, HttpServletResponse response, Model model, @ModelAttribute("sid") String sid) {
+	public String write(HttpServletResponse response, Model model, @ModelAttribute("sid") String sid) {
 		
 		if(sid == null) { // 참이면 로그인하지 않은 회원이 글쓰기 버튼을 클릭한 경우
 

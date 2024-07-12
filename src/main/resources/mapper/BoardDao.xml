@@ -8,7 +8,14 @@
 
 	<!-- 게시판 리스트 -->
 	<select id="boardListDao" resultType="com.codewhale.dto.BoardDto">
-		SELECT * FROM pboard ORDER BY bnum DESC
+		SELECT * FROM 
+			
+				<!-- A의 모든것을 가져오는데 2개의 가상의 임시필드 추가 -->
+				(SELECT A.*, CEIL((ROWNUM/#{param1}))pageNum, ROWNUM
+					FROM
+						<!--  정렬을 먼저 한 결과를 A로 치환 -->
+						(SELECT * FROM pboard ORDER BY bnum DESC)A)
+							WHERE pagenum = #{param2}   
 	</select>
 	
 	<!-- 게시판 글쓰기 -->
@@ -35,4 +42,9 @@
 	<update id="countHitDao">
 		update pboard set bhit=bhit+1 where bnum=#{param1}
 	</update>
+	
+	<!-- 게시판 총 글수 -->
+	<select id="boardTotalCountDao" resultType="int">
+		SELECT count(*) FROM pboard
+	</select>
 </mapper> 

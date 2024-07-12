@@ -12,22 +12,28 @@
 		<div>
 			<a href="/" id="nav_logo"><img src="/resources/img/whale.png" alt="CODE Whale" width="100px" /><span style="font-weight:100; margin-left:-50px;">CODE </span><span style="margin-left:5px; color:orange;">Whale</span></a>
 		</div>
-		<ul id="nav_menu">
-			<c:choose>
-				<c:when test="${sessionScope.sessionId eq null }">
-				<li><a href="login">Login</a></li>
-				<li><a href="join">Join</a></li>
-				</c:when>
-				<c:otherwise>
-				<li><c:out value="${sessionScope.sessionName} (${sessionScope.sessionId}"></c:out>)님</li>
-				<li><a href="logout">Logout</a></li>
-				<li><a href="modify">Modify</a></li>
-				</c:otherwise>
-			</c:choose>
+		<ul class="nav_menu" style="margin-right:110px;">
 			<li><a href="index">Profile</a></li>
 			<li><a href="list">Board</a></li>
 			<li><a href="index">Contact</a></li>
 		</ul>
+		<div>
+			<c:choose>
+				<c:when test="${sessionScope.sessionId eq null }">
+					<ul class="nav_menu">
+					<li><a href="login">Login</a></li>
+					<li><a href="join">Join</a></li>
+					</ul>
+				</c:when>
+				<c:otherwise>
+					<p><c:out value="${sessionScope.sessionName} (${sessionScope.sessionId}"></c:out>)님</p>
+					<ul class="nav_menu" style="margin-top:10px;">
+					<li><a href="logout">Logout</a></li>
+					<li><a href="modify">Modify</a></li>
+					</ul>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</div>
 </body>
 </html>

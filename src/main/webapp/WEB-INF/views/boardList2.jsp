@@ -15,6 +15,9 @@
 	<div id="location"></div>
 	
 	<h3>Board</h3>
+	
+	<p style="text-align:center; margin-bottom:10px">"${searchKey }"로 검색된 게시글입니다.</p>
+	
 	<div class="col2" style="padding:8px 0;">
 		<div> Total : ${pageDto.total } &nbsp;&nbsp;|&nbsp;&nbsp; ${currPage } / ${pageDto.realEndPage } pages</span></div>
 		<div style="text-align:right; flex-grow:1; ">
@@ -58,8 +61,8 @@
 	
 	<div class="pageNav">
 		<c:if test="${pageDto.prev }">
-			<a href="list?pageNum=1"><span class="bttn1">first </span></a>
-			<a href="list?pageNum=${pageDto.startPage-10 }"><span class="bttn1">◀ prev</span></a>  
+			<a href="list2?pageNum=1"><span class="bttn1"><< </span></a>
+			<a href="list2?pageNum=${pageDto.startPage-10 }&searchKey=${searchKey}"><span class="bttn1">◀ prev</span></a>  
 		</c:if> 
 		<c:forEach begin="${pageDto.startPage }" end="${pageDto.endPage }" var="pageNumber">
 		<!-- 페이지 시작번호와 마지막 번호를 가져온다 -->
@@ -68,13 +71,13 @@
 					<span style="border-radius:0.3em; background-color:#45818E; color:#fff; padding:2px 7px;; font-weight:600;">${pageNumber }</span>
 				</c:when>
 				<c:otherwise>
-					<a href="list?pageNum=${pageNumber }">${pageNumber }</a>
+					<a href="list2?pageNum=${pageNumber }&searchKey=${searchKey}">${pageNumber }</a>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${pageDto.next }">
-			<a href="list?pageNum=${pageDto.startPage+10 }"><span class="bttn1">▶ next</span></a>
-			<a href="list?pageNum=${pageDto.realEndPage }"><span class="bttn1">last</span></a>
+			<a href="list2?pageNum=${pageDto.startPage+10 }&searchKey=${searchKey}"><span class="bttn1">▶ next</span></a>
+			<a href="list2?pageNum=${pageDto.realEndPage }&searchKey=${searchKey}"><span class="bttn1">>></span></a>
 		</c:if>
 	</div>
 	

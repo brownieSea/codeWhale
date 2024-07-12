@@ -46,9 +46,38 @@ public class BoardController {
 		
 		ArrayList<BoardDto> bDtos = boardDao.boardListDao(criteria.getAmount(), criteria.getPageNum());
 		model.addAttribute("bDtos", bDtos);
-		model.addAttribute("pageDto", pageDto);  // startPage, endPage, next, prev, total, criteria 모두 전달 
+		model.addAttribute("pageDto", pageDto);  // startPage, endPage, next, prev, total, criteria 모두 전달
+		model.addAttribute("currPage", criteria.getPageNum());
+		model.addAttribute("realEndPage", pageDto.getRealEndPage());
 
 		return "boardList";
+	}
+
+	@GetMapping(value = "/list2")
+	public String boardList2(Model model, Criteria criteria, HttpServletRequest request) {
+		
+		BoardDao boardDao = sqlSession.getMapper(BoardDao.class);
+		
+		String currentPageNum = request.getParameter("pageNum");  // 사용자가 클릭한 게시판 페이지 번호
+		String searchKey = request.getParameter("searchKey");
+		
+		if(currentPageNum != null) { // 게시판 메뉴를 클릭해서 게시판 목록이 보일 경우에는 pageNum값이 null 이므로 에러 발생하기에 체크 필요
+			criteria.setPageNum(Integer.parseInt(currentPageNum));  // 사용자가 클릭한 페이지 번호를 Criterial 객체 내 변수인 pageNum 값으로 세팅
+		}
+		
+		int total = boardDao.searchResultTotalDao(searchKey); // 검색된 게시물 총 개수
+		
+		PageDto pageDto = new PageDto(total, criteria);
+		
+		ArrayList<BoardDto> bDtos = boardDao.searchKeyDao(criteria.getAmount(), criteria.getPageNum(), searchKey);
+		
+		model.addAttribute("bDtos", bDtos);
+		model.addAttribute("pageDto", pageDto);  // startPage, endPage, next, prev, total, criteria 모두 전달
+		model.addAttribute("currPage", criteria.getPageNum());
+		model.addAttribute("realEndPage", pageDto.getRealEndPage());
+		model.addAttribute("searchKey", searchKey);
+		
+		return "boardList2";
 	}
 	
 	@GetMapping(value = "/write")

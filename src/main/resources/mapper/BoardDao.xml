@@ -8,14 +8,17 @@
 
 	<!-- 게시판 리스트 -->
 	<select id="boardListDao" resultType="com.codewhale.dto.BoardDto">
+		<!-- select * from ( select A 로 두개의 셀 추가(pagenum, ROWNUM) 해서) from A ) where pagenum = 현재페이지번호  -->
+		<!-- pagenum 은 ROWNUM을 이용해서 amout 단위로 페이지 번호를 넣어준 임시 변수  -->
+		
 		SELECT * FROM 
-			
-				<!-- A의 모든것을 가져오는데 2개의 가상의 임시필드 추가 -->
-				(SELECT A.*, CEIL((ROWNUM/#{param1}))pageNum, ROWNUM
-					FROM
-						<!--  정렬을 먼저 한 결과를 A로 치환 -->
-						(SELECT * FROM pboard ORDER BY bnum DESC)A)
-							WHERE pagenum = #{param2}   
+			<!-- A의 모든것을 가져오는데 2개의 가상의 임시필드 추가 -->
+			(SELECT A.*, CEIL((ROWNUM/#{param1}))pagenum, ROWNUM
+				FROM
+					<!--  정렬을 먼저 한 결과를 A로 치환 -->
+					(SELECT * FROM pboard ORDER BY bnum DESC)A)
+		WHERE pagenum = #{param2}
+		   
 	</select>
 	
 	<!-- 게시판 글쓰기 -->
@@ -46,5 +49,22 @@
 	<!-- 게시판 총 글수 -->
 	<select id="boardTotalCountDao" resultType="int">
 		SELECT count(*) FROM pboard
+	</select>
+	
+	<!-- 검색결과 리스트 -->
+	<select id="searchKeyDao" resultType="com.codewhale.dto.BoardDto">
+		
+		SELECT * FROM 
+			<!-- A의 모든것을 가져오는데 2개의 가상의 임시필드 추가 -->
+			(SELECT A.*, CEIL((ROWNUM/#{param1}))pagenum, ROWNUM
+				FROM
+					<!--  조건을 만족하는 결과를 A로 치환 -->
+					(SELECT * FROM pboard WHERE        btitle LIKE '%' || #{param3} || '%'       OR         bcontent LIKE '%' || #{param3} || '%'           ORDER BY bnum DESC)A)
+		WHERE pagenum = #{param2}	
+	</select>
+	
+	<!-- 검색결과 총 개수 -->
+	<select id="searchResultTotalDao" resultType="int">
+		SELECT count(*) FROM pboard WHERE btitle LIKE '%' || #{param1} || '%' OR bcontent LIKE '%' || #{param1} || '%'
 	</select>
 </mapper> 

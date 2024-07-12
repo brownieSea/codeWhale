@@ -13,24 +13,24 @@ a:hover {color:black;}
 #nav_logo:link { color:#fff; text-decoration:none;}
 #nav_logo:hover {color:#fff;}
 
-#nav_menu a:visited { color:#999;}
-#nav_menu a:link { color:#999; text-decoration:none;}
-#nav_menu a:hover {color:#fff;}
-#nav_menu a:active {color:#fff; font-weight:bold;}
+.nav_menu a:visited { color:#999;}
+.nav_menu a:link { color:#999; text-decoration:none;}
+.nav_menu a:hover {color:#fff;}
+.nav_menu a:active {color:#fff; font-weight:bold;}
 
 h3 {font-size:30px;	font-weight:normal;	padding:30px 0;	text-align:center; font-weight:bold; }
 
-#nav_top {display:flex;	align-items:center;	width:100%;	box-sizing:border-box;	background-color:#333; padding:15px 10px;	color:#e1e1e1; font-weight:600; margin:0;}
+#nav_top {display:inline-flex; justify-content:space-between; align-items:center; width:100%; box-sizing:border-box; background-color:#333; padding:15px 10px; color:#e1e1e1; font-weight:600; margin:0;}
 #nav_logo { display:flex; align-items:center; font-size:30px;}	
-#nav_menu {	display:flex; align-items:center; font-size:12px; margin-left:auto; list-style:none;}
-#nav_menu li { margin:0 10px; }
+.nav_menu {	display:flex; align-items:center; font-size:12px; list-style:none;}
+.nav_menu li { margin:0 10px;}
 
 #join_box { display:table; margin:0 auto; padding:10px; text-align:center;}
 #join_box span {display:inline-block; padding:5px 10px; text-align:center; width:120px; background-color:#ddd; border-radius:10px; font-size:13px; margin-right:10px;}
 #join_box .memberInfo {display:inline-block; padding:5px 0; text-align:left; width:170px; margin-right:10px; background-color: transparent; border:0; font-size:18px;}
 #join_box p {margin:10px;}
 #join_box input[type=text], input[type=password] { border:0; border-bottom:1px solid #ccc; background-color: transparent; width:180px; height:30px; font-size:18px;}
-input[type=button], input[type=submit] { cursor:pointer; border:1px solid #000; border-radius:5px; background-color: #333; color:#fff; font-size:12px; font-weight:bold; padding:3px 15px; margin:15px 5px;;}
+input[type=button], input[type=submit] { cursor:pointer; border:1px solid #000; border-radius:5px; background-color: #333; color:#fff; font-size:12px; font-weight:bold; padding:3px 15px; margin:15px 5px;}
 input:focus {outline:none;}
 textarea:focus {outline:none;}
 textarea {white-space:pre-line;}
@@ -39,16 +39,16 @@ table {width:650px; margin:0 auto; border-spacing: 0; }
 th, td {padding:8px; border-bottom:1px solid #ccc; text-align:center;}
 th {background-color: #ccc; text-align:center;}
 tr:hover { background-color: #fff; }
-.pageNav { width:650px; margin:15px auto; text-align:center; font-size:13px;}
-.pageNav a {margin:0 5px;}
+.pageNav { width:650px; margin:5px auto; text-align:center; font-size:13px;}
+.pageNav a {margin:0 6px;}
 
 
-#write_box { width:500px; margin:0 auto; padding:10px;}
+#write_box { width:650px; margin:0 auto; padding:10px;}
 #write_box span {display:inline-block; padding:5px 10px; text-align:center; width:50px; background-color:#ddd; border-radius:10px; font-size:13px; margin-right:10px;}
 #write_box .memberInfo {display:inline-block; padding:5px 0; text-align:left; width:170px; font-size:12px; margin-right:10px; background-color: transparent; border:0;}
 #write_box p {margin:10px;}
-#write_box input[type=text] { border:0; border-bottom:1px solid #ccc; background-color: transparent; width:400px; height:30px; font-size:18px;}
-#write_box textarea { border:1px solid #ccc; background-color: transparent; width:455px; height:200px; font-size:12px; padding:10px;}
+#write_box input[type=text] { border:0; border-bottom:1px solid #ccc; background-color: transparent; width:550px; height:30px; font-size:18px;}
+#write_box textarea { border:1px solid #ccc; background-color: transparent; width:605px; height:200px; font-size:12px; padding:10px;}
 
-
+.col2 {display:flex; margin:0 auto; width:650px; } 
 

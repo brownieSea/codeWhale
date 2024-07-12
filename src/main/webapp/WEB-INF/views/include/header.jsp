@@ -19,7 +19,7 @@
 				<li><a href="join">Join</a></li>
 				</c:when>
 				<c:otherwise>
-				<li><c:out value="${sessionScope.sessionName}"></c:out> (<c:out value="${sessionScope.sessionId}"></c:out>)님</li>
+				<li><c:out value="${sessionScope.sessionName} (${sessionScope.sessionId}"></c:out>)님</li>
 				<li><a href="logout">Logout</a></li>
 				<li><a href="modify">Modify</a></li>
 				</c:otherwise>

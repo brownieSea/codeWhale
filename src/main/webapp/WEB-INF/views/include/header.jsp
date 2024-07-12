@@ -26,8 +26,8 @@
 					</ul>
 				</c:when>
 				<c:otherwise>
-					<p><c:out value="${sessionScope.sessionName} (${sessionScope.sessionId}"></c:out>)님</p>
-					<ul class="nav_menu" style="margin-top:10px;">
+					<p style="text-align:center;"><c:out value="${sessionScope.sessionName} (${sessionScope.sessionId}"></c:out>)님</p>
+					<ul class="nav_menu" style="margin-top:5px;">
 					<li><a href="logout">Logout</a></li>
 					<li><a href="modify">Modify</a></li>
 					</ul>
